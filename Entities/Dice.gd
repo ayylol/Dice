@@ -18,7 +18,6 @@ onready var offset = Vector3(0,height_offset,0)
 
 func _ready():
 	transform.origin = grid.map_to_world(starting_pos.x, starting_pos.y, 0) + offset
-	pass
 
 func move(direction):
 	var initiate = false
