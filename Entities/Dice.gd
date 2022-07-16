@@ -1,45 +1,50 @@
 extends KinematicBody
 
-enum Direction {
-	FORWARDS,
-	BACKWARDS,
-	LEFT,
-	RIGHT
-}
-
 export var move_time = 0.25
 export var jump_apex = 10
+export var starting_pos = Vector2(0,0)
+
+var grid_pos = starting_pos
 
 var _can_move = true
 
-onready var rot_tween = $RotateTween
-onready var jump_anim = $AnimationPlayer
+onready var move_tween = $MoveTween
+onready var jump_anim = $JumpAnimation
 onready var mesh = $MeshRoot/Mesh
 onready var mesh_root = $MeshRoot
 
 func move(direction):
 	var initiate = false
 	var trans_to = Transform(mesh.transform.basis)
+	var move_to = $".".translation #TODO CHANGE THIS TO BE THE LOCATION MOVED TO
 	match direction:
-		Direction.FORWARDS:
+		Directions.FORWARD:
 			trans_to = trans_to.rotated(Vector3(1,0,0), -PI/2)
+			move_to += Vector3(0,0,-5)
 			initiate = true
-		Direction.BACKWARDS:
+		Directions.BACKWARD:
 			trans_to = trans_to.rotated(Vector3(1,0,0), PI/2)
+			move_to += Vector3(0,0,5)
 			initiate = true
-		Direction.LEFT:
+		Directions.LEFT:
 			trans_to = trans_to.rotated(Vector3(0,0,1), PI/2)
+			move_to += Vector3(-5,0,0)
 			initiate = true
-		Direction.RIGHT:
+		Directions.RIGHT:
 			trans_to = trans_to.rotated(Vector3(0,0,1), -PI/2)
+			move_to += Vector3(5,0,0)
 			initiate = true
 	if _can_move and initiate:
 		jump_anim.play("move")
-		rot_tween.interpolate_property(
+		move_tween.interpolate_property(
 			mesh, "transform", 
 			mesh.transform, trans_to, 
-			move_time, rot_tween.TRANS_SINE, rot_tween.EASE_IN_OUT)
-		rot_tween.start()
+			move_time, move_tween.TRANS_SINE, move_tween.EASE_IN_OUT)
+		move_tween.interpolate_property(
+			$".", "translation",
+			$".".translation, move_to,
+			move_time, move_tween.TRANS_SINE, move_tween.EASE_IN_OUT)
+		move_tween.start()
 		_can_move = false
 
 func _on_RotateTween_tween_step(object, key, elapsed, value):
@@ -48,6 +53,35 @@ func _on_RotateTween_tween_step(object, key, elapsed, value):
 func _on_RotateTween_tween_all_completed():
 	_can_move = true
 
-
-func _on_JumpTween_tween_started(object, key):
-	print("pissshit")
+func get_side(direction) -> Spatial:
+	var sides = mesh.get_children()
+	match direction:
+		Directions.FORWARD:
+			sides.sort_custom(sorter, "front_most")
+		Directions.BACKWARD:
+			sides.sort_custom(sorter, "back_most")
+		Directions.LEFT:
+			sides.sort_custom(sorter, "left_most")
+		Directions.RIGHT:
+			sides.sort_custom(sorter, "right_most")
+		Directions.TOP:
+			sides.sort_custom(sorter, "top_most")
+		Directions.BOTTOM:
+			sides.sort_custom(sorter, "bottom_most")
+	return sides[0]
+	
+class sorter:
+	static func top_most(a : Spatial, b : Spatial) -> bool:
+		return a.global_transform.origin.y > b.global_transform.origin.y
+	static func bottom_most(a : Spatial, b : Spatial) -> bool:
+		return a.global_transform.origin.y < b.global_transform.origin.y
+	
+	static func left_most(a : Spatial, b : Spatial) -> bool:
+		return a.global_transform.origin.x < b.global_transform.origin.x
+	static func right_most(a : Spatial, b : Spatial) -> bool:
+		return a.global_transform.origin.x > b.global_transform.origin.x
+	
+	static func front_most(a : Spatial, b : Spatial) -> bool:
+		return a.global_transform.origin.z < b.global_transform.origin.z
+	static func back_most(a : Spatial, b : Spatial) -> bool:
+		return a.global_transform.origin.z > b.global_transform.origin.z

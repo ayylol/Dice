@@ -14,6 +14,10 @@ config/name="Dice"
 run/main_scene="res://Root.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Directions="*res://Directions.gd"
+
 [input]
 
 forwards={
