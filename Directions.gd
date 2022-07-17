@@ -36,3 +36,14 @@ func vec2_to_dir(dir: Vector2):
 		Vector2(0,-1):
 			return FORWARD
 	return -1
+
+func dir_to_rad(dir):
+	match dir:
+		FORWARD:
+			return 0
+		BACKWARD:
+			return PI
+		LEFT:
+			return PI/2
+		RIGHT:
+			return (3*PI)/2

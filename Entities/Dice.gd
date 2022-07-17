@@ -21,6 +21,8 @@ var instant_move = false
 var _moves_left = 0
 var _has_attacked = false
 var _can_move = true
+var _hit_dir
+var _hit_target
 
 onready var health = max_health
 
@@ -29,6 +31,9 @@ onready var move_tween = $MoveTween
 onready var jump_anim = $JumpAnimation
 onready var mesh = $MeshRoot/Mesh
 onready var mesh_root = $MeshRoot
+onready var hammer_root = $MeshRoot/HammerRoot
+onready var hammer = $MeshRoot/HammerRoot/Hammer
+onready var hit_anim = $MeshRoot/HammerRoot/Hammer/HitAnimation
 onready var offset = Vector3(0,height_offset,0)
 
 func _ready():
@@ -72,10 +77,12 @@ func move(direction):
 					if (((is_in_group("Friendly") and on_next_tile.is_in_group("Enemy"))
 						or (is_in_group("Enemy") and on_next_tile.is_in_group("Friendly")))
 						and (not _has_attacked)): # Attack
-							on_next_tile.damage(get_side(direction).val)
-							_has_attacked = true
-							emit_signal("attacked")
-							_did_move()
+							_hit_dir = direction
+							_hit_target = on_next_tile
+							hammer_root.show()
+							hammer_root.rotation.y = Directions.dir_to_rad(_hit_dir) + PI
+							hit_anim.play("Hit")
+							_can_move = false
 					else:
 						emit_signal("failed_to_move")
 					return
@@ -164,3 +171,10 @@ class sorter:
 	static func back_most(a, b) -> bool:
 		return a.get_node("Tip").global_transform.origin.z > b.get_node("Tip").global_transform.origin.z
 
+func _on_HitAnimation_animation_finished(anim_name):
+	hammer_root.hide()
+	_hit_target.damage(get_side(_hit_dir).val)
+	_has_attacked = true
+	_can_move = true
+	_did_move()
+	emit_signal("attacked")
