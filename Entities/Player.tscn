@@ -57,6 +57,10 @@ fov = 80.0
 [node name="Rotate" type="Tween" parent="Brain" index="1"]
 
 [node name="PlayerHealthBar" parent="." index="7" instance=ExtResource( 10 )]
+margin_left = 32.0
+margin_top = 15.0
+margin_right = 470.0
+margin_bottom = 67.0
 theme = SubResource( 1 )
 custom_fonts/font = SubResource( 2 )
 custom_styles/fg = SubResource( 3 )

@@ -25,4 +25,7 @@ starting_pos = Vector2( -4, -13 )
 starting_pos = Vector2( 9, -12 )
 
 [node name="Item" parent="." index="6" instance=ExtResource( 3 )]
-grid_pos = Vector2( 1, 0 )
+grid_pos = Vector2( -8, 5 )
+
+[node name="Item2" parent="." index="7" instance=ExtResource( 3 )]
+grid_pos = Vector2( 11, -14 )
