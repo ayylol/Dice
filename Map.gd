@@ -18,5 +18,8 @@ func is_occupied(grid_pos: Vector2):
 	
 
 func next_turn():
-	current_player = (current_player+1)%players.size()
+	var last_player = players[current_player]
+	players = get_children()
+	current_player = (players.find(last_player)+1)%players.size()
 	players[current_player].start_turn()
+	
