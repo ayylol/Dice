@@ -33,6 +33,7 @@ onready var offset = Vector3(0,height_offset,0)
 
 func _ready():
 	transform.origin = grid.map_to_world(starting_pos.x, 0, starting_pos.y) + offset
+	emit_signal("health_changed", health, max_health)
 
 func move(direction):
 	var initiate = false

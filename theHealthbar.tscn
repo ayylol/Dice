@@ -25,13 +25,21 @@ script = ExtResource( 2 )
 size = Vector2( 411, 50 )
 
 [node name="ProgressBar" type="ProgressBar" parent="Viewport"]
-margin_right = 430.0
-margin_bottom = 50.0
+margin_right = 500.0
+margin_bottom = 60.0
 theme = SubResource( 1 )
 custom_fonts/font = SubResource( 5 )
 custom_styles/fg = SubResource( 2 )
 custom_styles/bg = SubResource( 3 )
 value = 100.0
+percent_visible = false
+
+[node name="Label" type="Label" parent="Viewport/ProgressBar"]
+margin_left = 180.0
+margin_right = 233.0
+margin_bottom = 31.0
+text = "chungus
+"
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00338334, 0 )
