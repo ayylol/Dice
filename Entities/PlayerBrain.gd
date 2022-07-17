@@ -54,3 +54,4 @@ func rotate_cam(direction):
 
 func _on_Rotate_tween_all_completed():
 	_can_move_cam = true
+

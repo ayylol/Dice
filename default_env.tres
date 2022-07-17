@@ -8,4 +8,5 @@ ambient_light_color = Color( 0.470588, 0.470588, 0.470588, 1 )
 ambient_light_energy = 0.9
 fog_enabled = true
 fog_color = Color( 0.501961, 0.6, 0.701961, 1 )
-fog_depth_end = 50.0
+fog_depth_begin = 18.0
+fog_depth_curve = 0.554787

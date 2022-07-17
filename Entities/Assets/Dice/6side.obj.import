@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/6side.obj-f3feb244312a708cb440a1f6f398a1be.mesh"
+
+[deps]
+
+files=[ "res://.import/6side.obj-f3feb244312a708cb440a1f6f398a1be.mesh" ]
+
+source_file="res://Entities/Assets/Dice/6side.obj"
+dest_files=[ "res://.import/6side.obj-f3feb244312a708cb440a1f6f398a1be.mesh", "res://.import/6side.obj-f3feb244312a708cb440a1f6f398a1be.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286
