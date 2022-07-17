@@ -70,7 +70,7 @@ func move(direction):
 				initiate = true
 		# Perform movement
 		var next_tile = grid.get_cell_item(_temp_grid_pos.x, 0, _temp_grid_pos.y)
-		if initiate and not (next_tile == -1 or next_tile == 1 or next_tile == 2 or next_tile == 3):
+		if initiate and not (next_tile == -1 or next_tile == 3 or next_tile == 4):
 			var on_next_tile = grid.is_occupied(_temp_grid_pos)
 			if on_next_tile != null:
 				if on_next_tile.is_in_group("Die"):
