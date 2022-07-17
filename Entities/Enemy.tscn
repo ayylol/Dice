@@ -10,7 +10,7 @@
 [ext_resource path="res://Entities/Assets/Enemies/4Enemy.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Entities/EnemyBrain.gd" type="Script" id=9]
 
-[node name="Dice" instance=ExtResource( 1 )]
+[node name="Dice" groups=["Enemy"] instance=ExtResource( 1 )]
 
 [node name="Mesh" parent="MeshRoot" index="0" instance=ExtResource( 2 )]
 
@@ -37,3 +37,9 @@ light_energy = 5.0
 
 [node name="Brain" type="Node" parent="." index="4"]
 script = ExtResource( 9 )
+
+[connection signal="attacked" from="." to="Brain" method="_on_Dice_attacked"]
+[connection signal="failed_to_move" from="." to="Brain" method="_on_Dice_failed_to_move"]
+[connection signal="moved" from="." to="Brain" method="_on_Dice_moved"]
+[connection signal="turn_done" from="." to="Brain" method="_on_Dice_turn_done"]
+[connection signal="turn_started" from="." to="Brain" method="_on_Dice_turn_started"]
