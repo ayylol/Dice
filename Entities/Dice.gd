@@ -5,6 +5,7 @@ signal turn_started
 signal failed_to_move
 signal moved
 signal attacked
+signal game_over
 
 export var max_health = 10
 export var move_time = 0.25
@@ -13,6 +14,7 @@ export var jump_apex = 10
 export var height_offset = 2
 export var starting_pos = Vector2(0,0)
 
+onready var grid_pos = starting_pos
 var instant_move = false
 
 var _moves_left = 0
@@ -20,7 +22,6 @@ var _has_attacked = false
 var _can_move = true
 
 onready var health = max_health
-onready var grid_pos = starting_pos
 
 onready var grid = $".."
 onready var move_tween = $MoveTween
@@ -113,7 +114,10 @@ func damage(amount: int):
 	print(String(is_in_group("Friendly")) + " " + String(health))
 	health -= amount
 	if health<=0:
-		queue_free()
+		if is_in_group("Friendly"):
+			emit_signal("game_over")
+		else:
+			queue_free()
 	print(health)
 
 func _did_move():
