@@ -141,6 +141,8 @@ func _on_RotateTween_tween_all_completed():
 	_can_move = true
 	emit_signal("moved")
 	play_step()
+	if is_in_group("Friendly") and grid.get_cell_item(grid_pos.x, 0, grid_pos.y)==2:
+		print("piss shit")
 
 func damage(amount: int):
 	health -= amount

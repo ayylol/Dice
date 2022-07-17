@@ -37,7 +37,9 @@ light_color = Color( 1, 0, 0, 1 )
 light_energy = 5.0
 
 [node name="Healthbar" parent="MeshRoot" index="2" instance=ExtResource( 10 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.09874, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+
+[node name="HealthTween" type="Tween" parent="MeshRoot/Healthbar" index="2"]
 
 [node name="Brain" type="Node" parent="." index="4"]
 script = ExtResource( 9 )
