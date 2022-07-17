@@ -1,19 +1,22 @@
 extends Node
 
+export var turns_to_forget = 2
+export var awareness_range = 8
+
+var _in_turn = false
 var _pattern = [0,0,0]
-var in_turn = false
 var _move_index = 0
 var _times_tried = 0
 var _last_move_failed = false
 var _tried_flipped = false
 var _chasing_player = true
+var _turns_since_seen = 10000
 var _path_to_player
 
 onready var die = $".."
 
 func _ready():
 	new_pattern()
-	#
 
 func new_pattern():
 	_tried_flipped = false
@@ -37,6 +40,7 @@ func get_move():
 	var move = _pattern[_move_index]
 	return move
 
+# FOR PATHFINDING
 func get_path_to_player():
 	# [NODE, F, G, H PARENT]
 	var _origin_h = heuristic(die.grid_pos)
@@ -70,6 +74,7 @@ func get_path_to_player():
 						open_list.push_back(node)
 		closed_list.push_back(q)
 	return null
+
 func node_already_visited(list, node):
 	for n in list:
 		if n[0] == node[0]: return n
@@ -77,9 +82,10 @@ func node_already_visited(list, node):
 
 func heuristic(pos: Vector2)->float:
 	return die.grid.get_node("Player").grid_pos.distance_to(pos)
+#END FOR PATHFINDING
 
 func _on_Dice_attacked():
-	if in_turn:
+	if _in_turn:
 		die.move(get_move())
 
 func back_trace(node):
@@ -95,7 +101,7 @@ func back_trace(node):
 	return []
 
 func _on_Dice_failed_to_move():
-	if in_turn:
+	if _in_turn:
 		if _times_tried <= 3:
 			_times_tried +=1
 			die.move(get_move())
@@ -107,23 +113,33 @@ func _on_Dice_failed_to_move():
 			die.move(get_move())
 
 func _on_Dice_moved():
-	if in_turn:
+	if _in_turn:
 		if _chasing_player:
+			if _path_to_player.size() <= 0:
+				_chasing_player = false
+				die.move(get_move())
 			die.move(_path_to_player.pop_back())
 		else:
 			die.move(get_move())
 			_tried_flipped = false
 
 func _on_Dice_turn_done():
-	in_turn = false
+	_in_turn = false
 
 func _on_Dice_turn_started():
-	in_turn = true
-	if _chasing_player:
+	_in_turn = true
+	if(heuristic(die.grid_pos)<awareness_range):
+		_turns_since_seen = 0
+	else:
+		_turns_since_seen += 1
+	
+	if _turns_since_seen < turns_to_forget:
 		_path_to_player = back_trace(get_path_to_player())
 		if _path_to_player.size() <= 0:
 			_chasing_player = false
 			die.move(get_move())
 		die.move(_path_to_player.pop_back())
+		_chasing_player = true
 	else:
+		_chasing_player = false
 		die.move(get_move())
