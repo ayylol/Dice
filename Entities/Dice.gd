@@ -121,8 +121,9 @@ func _on_RotateTween_tween_all_completed():
 
 func damage(amount: int):
 	health -= amount
-	if health<=0:
+	if health <= 0:
 		if is_in_group("Friendly"):
+			_can_move = false
 			emit_signal("game_over")
 		else:
 			queue_free()
