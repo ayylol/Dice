@@ -11,12 +11,16 @@ config_version=4
 [application]
 
 config/name="Dice"
-run/main_scene="res://Root.tscn"
+run/main_scene="res://MainMenu.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 Directions="*res://Directions.gd"
+
+[global]
+
+run=false
 
 [input]
 
