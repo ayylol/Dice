@@ -14,9 +14,14 @@ var _turns_since_seen = 10000
 var _path_to_player
 
 onready var die = $".."
+var health_bar
+var health_tween
 
 func _ready():
 	new_pattern()
+	
+	health_bar = $"../MeshRoot/Healthbar"
+	health_tween = $"../MeshRoot/Healthbar/HealthTween"
 
 func new_pattern():
 	_tried_flipped = false
@@ -81,7 +86,9 @@ func node_already_visited(list, node):
 	return null
 
 func heuristic(pos: Vector2)->float:
-	return die.grid.get_node("Player").grid_pos.distance_to(pos)
+	if is_instance_valid(die.grid.get_node("Player")):
+		return die.grid.get_node("Player").grid_pos.distance_to(pos)
+	return -1.0
 #END FOR PATHFINDING
 
 func _on_Dice_attacked():
@@ -143,3 +150,20 @@ func _on_Dice_turn_started():
 	else:
 		_chasing_player = false
 		die.move(get_move())
+
+func should_show_health():
+	var h = heuristic(die.grid_pos)
+	die.instant_move = false
+	if h < 10:
+		var s = clamp(4/(h+2),0.2,1)
+		health_tween.stop_all()
+		health_tween.interpolate_property(
+			health_bar, "scale",
+			health_bar.scale, Vector3(s,s,s),
+			0.1)
+		health_tween.start()
+		health_bar.show()
+	else:
+		health_bar.hide()
+	if h > 20:
+		die.instant_move = true
