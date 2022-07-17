@@ -1,15 +1,22 @@
 extends Node
 
 var _pattern = [0,0,0]
+var in_turn = false
 var _move_index = 0
+var _times_tried = 0
+var _last_move_failed = false
 var _tried_flipped = false
+var _chasing_player = true
+
+onready var die = $".."
 
 func _ready():
 	new_pattern()
-	
+
 func new_pattern():
 	_tried_flipped = false
 	_move_index = 0
+	_times_tried = 0
 	var ok_moves = [randi()%2, (randi()%2)+2]
 	randomize()
 	for i in range(_pattern.size()):
@@ -17,45 +24,43 @@ func new_pattern():
 	print(_pattern)
 
 func flip_pattern():
-	_move_index = 0
 	_tried_flipped = true
-	var temp = Array(_pattern)
-	for i in range(temp.size()):
-		var dir = temp[i]
-		var new_dir = 0
-		match dir:
-			Directions.RIGHT:
-				new_dir = Directions.LEFT
-			Directions.LEFT:
-				new_dir = Directions.RIGHT
-			Directions.FORWARD:
-				new_dir = Directions.BACKWARD
-			Directions.BACKWARD:
-				new_dir = Directions.FORWARD
-		_pattern[_pattern.size()-1-i] = new_dir
+	_move_index = 0
+	_times_tried = 0
+	_pattern.invert()
+	for i in range(_pattern.size()):
+		_pattern[i] = Directions.get_opposite(_pattern[i])
 	print(_pattern)
 
 func get_move():
-	var move = _pattern[_move_index]
 	_move_index = (_move_index + 1) % _pattern.size()
+	var move = _pattern[_move_index]
 	return move
 
 func _on_Dice_attacked():
-	pass # Replace with function body.
+	if in_turn:
+		die.move(get_move())
 
 func _on_Dice_failed_to_move():
-	if $".."._moves_left > 0:
-		if not _tried_flipped and _move_index == 3:
+	if in_turn:
+		if _times_tried <= 3:
+			_times_tried +=1
+			die.move(get_move())
+		elif not _tried_flipped:
 			flip_pattern()
+			die.move(get_move())	
 		else:
 			new_pattern()
-		$"..".move(get_move())
+			die.move(get_move())
 
 func _on_Dice_moved():
-	$"..".move(get_move())
+	if in_turn:
+		die.move(get_move())
+		_tried_flipped = false
 
 func _on_Dice_turn_done():
-	pass # Replace with function body.
+	in_turn = false
 
 func _on_Dice_turn_started():
-	$"..".move(get_move())
+	in_turn = true
+	die.move(get_move())
