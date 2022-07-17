@@ -10,7 +10,7 @@
 [ext_resource path="res://Entities/Assets/Player/4Player.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Entities/Assets/Player/6Player.tscn" type="PackedScene" id=9]
 
-[node name="Dice" instance=ExtResource( 2 )]
+[node name="Dice" groups=["Friendly"] instance=ExtResource( 2 )]
 
 [node name="Mesh" parent="MeshRoot" index="0" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 0, 0 )

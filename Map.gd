@@ -15,7 +15,6 @@ func is_occupied(grid_pos: Vector2):
 		if dice.get("grid_pos") == grid_pos:
 			return dice
 	return null
-	
 
 func next_turn():
 	var last_player = players[current_player]

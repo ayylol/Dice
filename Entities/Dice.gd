@@ -61,11 +61,13 @@ func move(direction):
 		if initiate and not (next_tile == -1 or next_tile == 1 or next_tile == 2 or next_tile == 3):
 			var on_next_tile = grid.is_occupied(_temp_grid_pos)
 			if on_next_tile != null:
-				if on_next_tile.is_in_group("Enemy"): # Attack
-					if not _has_attacked:
-						on_next_tile.damage(get_side(direction).val)
-						_has_attacked = true
-						_did_move()
+				if on_next_tile.is_in_group("Die"):
+					if (((is_in_group("Friendly") and on_next_tile.is_in_group("Enemy"))
+						or (is_in_group("Enemy") and on_next_tile.is_in_group("Friendly")))
+						and (not _has_attacked)): # Attack
+							on_next_tile.damage(get_side(direction).val)
+							_has_attacked = true
+							_did_move()
 					return
 				elif on_next_tile.is_in_group("Pickup"): # Move and pickup
 					print("pickup")
@@ -98,13 +100,13 @@ func _on_RotateTween_tween_all_completed():
 	_can_move = true
 
 func damage(amount: int):
+	print(String(is_in_group("Friendly")) + " " + String(health))
 	health -= amount
 	if health<=0:
 		queue_free()
 	print(health)
 
 func _did_move():
-	print("moved")
 	_moves_left -= 1
 	if _moves_left <= 0:
 		emit_signal("turn_done")
