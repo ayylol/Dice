@@ -12,6 +12,7 @@ var _tried_flipped = false
 var _chasing_player = true
 var _turns_since_seen = 10000
 var _path_to_player
+var _move_total_tries = 0
 
 onready var die = $".."
 var health_bar
@@ -109,6 +110,9 @@ func back_trace(node):
 
 func _on_Dice_failed_to_move():
 	if _in_turn:
+		_move_total_tries+=1
+		if _move_total_tries > 10:
+			die.end_turn()
 		if _times_tried <= 3:
 			_times_tried +=1
 			die.move(get_move())
@@ -134,6 +138,7 @@ func _on_Dice_turn_done():
 	_in_turn = false
 
 func _on_Dice_turn_started():
+	_move_total_tries = 0
 	_in_turn = true
 	if(heuristic(die.grid_pos)<awareness_range):
 		_turns_since_seen = 0

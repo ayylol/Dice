@@ -109,7 +109,14 @@ func move(direction):
 					else:
 						emit_signal("failed_to_move")
 					return
-				elif on_next_tile.is_in_group("Pickup"): # Move and pickup
+				elif on_next_tile.is_in_group("Pickup") and is_in_group("Friendly"): # Move and pickup
+					var new_side = on_next_tile.get_node("Mesh")
+					on_next_tile.remove_child(new_side)
+					mesh.add_child(new_side)
+					var to_replace = get_side(direction)
+					new_side.transform = to_replace.transform
+					on_next_tile.queue_free()
+					to_replace.queue_free()
 					print("pickups")
 			
 			if instant_move:
@@ -219,3 +226,8 @@ func play_step():
 func teleport(pos):
 	grid_pos = pos
 	transform = Transform(transform.basis, grid.map_to_world(grid_pos.x, 0, grid_pos.y) + offset)
+
+func end_turn():
+	_can_move = false
+	_moves_left = 0
+	emit_signal("turn_done")
