@@ -1,0 +1,45 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Entities/PlayerBrain.gd" type="Script" id=1]
+[ext_resource path="res://Entities/Dice.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Entities/Assets/Player/PlayerEdge.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Entities/Assets/Player/1Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Entities/Assets/Player/3Player.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Entities/Assets/Player/2Player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Entities/Assets/Player/5Player.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Entities/Assets/Player/4Player.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Entities/Assets/Player/6Player.tscn" type="PackedScene" id=9]
+
+[node name="Dice" instance=ExtResource( 2 )]
+
+[node name="Mesh" parent="MeshRoot" index="0" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 0, 0 )
+skeleton = NodePath("../..")
+
+[node name="Front" parent="MeshRoot/Mesh" index="0" instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
+
+[node name="Right" parent="MeshRoot/Mesh" index="1" instance=ExtResource( 6 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
+
+[node name="Bottom" parent="MeshRoot/Mesh" index="2" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+
+[node name="Top" parent="MeshRoot/Mesh" index="3" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 0, 0 )
+
+[node name="Left" parent="MeshRoot/Mesh" index="4" instance=ExtResource( 7 )]
+transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, 0 )
+
+[node name="Back" parent="MeshRoot/Mesh" index="5" instance=ExtResource( 9 )]
+
+[node name="Brain" type="Spatial" parent="." index="4"]
+script = ExtResource( 1 )
+
+[node name="Camera" type="Camera" parent="Brain" index="0"]
+transform = Transform( 1, 0, 0, 0, 0.915571, 0.402156, 0, -0.402156, 0.915571, 0, 4.98504, 10.4372 )
+fov = 80.0
+
+[node name="Rotate" type="Tween" parent="Brain" index="1"]
+
+[connection signal="tween_all_completed" from="Brain/Rotate" to="Brain" method="_on_Rotate_tween_all_completed"]

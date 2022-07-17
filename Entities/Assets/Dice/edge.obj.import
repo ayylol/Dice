@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/edge.obj-29df739a370b02d7021d7c8440e0b72d.mesh"
+
+[deps]
+
+files=[ "res://.import/edge.obj-29df739a370b02d7021d7c8440e0b72d.mesh" ]
+
+source_file="res://Entities/Assets/Dice/edge.obj"
+dest_files=[ "res://.import/edge.obj-29df739a370b02d7021d7c8440e0b72d.mesh", "res://.import/edge.obj-29df739a370b02d7021d7c8440e0b72d.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286
