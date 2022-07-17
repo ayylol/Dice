@@ -13,7 +13,6 @@ onready var die = $".."
 
 func _ready():
 	new_pattern()
-	#
 
 func new_pattern():
 	_tried_flipped = false
@@ -37,6 +36,7 @@ func get_move():
 	var move = _pattern[_move_index]
 	return move
 
+# FOR PATHFINDING
 func get_path_to_player():
 	# [NODE, F, G, H PARENT]
 	var _origin_h = heuristic(die.grid_pos)
@@ -70,6 +70,7 @@ func get_path_to_player():
 						open_list.push_back(node)
 		closed_list.push_back(q)
 	return null
+
 func node_already_visited(list, node):
 	for n in list:
 		if n[0] == node[0]: return n
@@ -77,6 +78,7 @@ func node_already_visited(list, node):
 
 func heuristic(pos: Vector2)->float:
 	return die.grid.get_node("Player").grid_pos.distance_to(pos)
+#END FOR PATHFINDING
 
 func _on_Dice_attacked():
 	if in_turn:
