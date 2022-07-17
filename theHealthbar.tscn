@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://ARIAL.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://EnemyHealthBar.gd" type="Script" id=2]
+[ext_resource path="res://Font.tres" type="DynamicFont" id=3]
 
 [sub_resource type="Theme" id=1]
 
@@ -26,7 +27,7 @@ size = Vector2( 411, 50 )
 
 [node name="ProgressBar" type="ProgressBar" parent="Viewport"]
 margin_right = 500.0
-margin_bottom = 60.0
+margin_bottom = 75.0
 theme = SubResource( 1 )
 custom_fonts/font = SubResource( 5 )
 custom_styles/fg = SubResource( 2 )
@@ -38,8 +39,9 @@ percent_visible = false
 margin_left = 180.0
 margin_right = 233.0
 margin_bottom = 31.0
-text = "chungus
-"
+custom_fonts/font = ExtResource( 3 )
+text = "
+10/10"
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00338334, 0 )
