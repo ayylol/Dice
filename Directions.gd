@@ -24,3 +24,15 @@ func get_opposite(dir):
 		BOTTOM:
 			return TOP
 	return -1
+
+func vec2_to_dir(dir: Vector2):
+	match dir.normalized():
+		Vector2(1,0):
+			return RIGHT
+		Vector2(-1,0):
+			return LEFT
+		Vector2(0,1):
+			return BACKWARD
+		Vector2(0,-1):
+			return FORWARD
+	return -1

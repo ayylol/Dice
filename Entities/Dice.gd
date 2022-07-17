@@ -13,6 +13,7 @@ export var jump_apex = 10
 export var height_offset = 2
 export var starting_pos = Vector2(0,0)
 
+onready var grid_pos = starting_pos
 var instant_move = false
 
 var _moves_left = 0
@@ -20,7 +21,6 @@ var _has_attacked = false
 var _can_move = true
 
 onready var health = max_health
-onready var grid_pos = starting_pos
 
 onready var grid = $".."
 onready var move_tween = $MoveTween
