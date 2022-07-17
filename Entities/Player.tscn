@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Entities/PlayerBrain.gd" type="Script" id=1]
 [ext_resource path="res://Entities/Dice.tscn" type="PackedScene" id=2]
@@ -9,6 +9,20 @@
 [ext_resource path="res://Entities/Assets/Player/5Player.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Entities/Assets/Player/4Player.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Entities/Assets/Player/6Player.tscn" type="PackedScene" id=9]
+[ext_resource path="res://ProgressBar.tscn" type="PackedScene" id=10]
+[ext_resource path="res://KiwiSoda.ttf" type="DynamicFontData" id=11]
+
+[sub_resource type="Theme" id=1]
+
+[sub_resource type="DynamicFont" id=2]
+size = 50
+font_data = ExtResource( 11 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.121569, 0.670588, 0.858824, 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.596078, 0.176471, 0.176471, 1 )
 
 [node name="Dice" groups=["Friendly"] instance=ExtResource( 2 )]
 
@@ -41,5 +55,11 @@ transform = Transform( 1, 0, 0, 0, 0.915571, 0.402156, 0, -0.402156, 0.915571, 0
 fov = 80.0
 
 [node name="Rotate" type="Tween" parent="Brain" index="1"]
+
+[node name="PlayerHealthBar" parent="." index="7" instance=ExtResource( 10 )]
+theme = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
+custom_styles/fg = SubResource( 3 )
+custom_styles/bg = SubResource( 4 )
 
 [connection signal="tween_all_completed" from="Brain/Rotate" to="Brain" method="_on_Rotate_tween_all_completed"]

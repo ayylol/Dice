@@ -7,6 +7,7 @@ signal moved
 signal attacked
 signal health_changed(health, max_health)
 signal game_over
+signal got_to_end
 
 export var max_health = 10
 export var move_time = 0.25
@@ -142,7 +143,9 @@ func _on_RotateTween_tween_all_completed():
 	emit_signal("moved")
 	play_step()
 	if is_in_group("Friendly") and grid.get_cell_item(grid_pos.x, 0, grid_pos.y)==2:
-		print("piss shit")
+		grid_pos = Vector2(0,0)
+		transform = Transform(transform.basis, grid.map_to_world(grid_pos.x, 0, grid_pos.y) + offset)
+		emit_signal("got_to_end")
 
 func damage(amount: int):
 	health -= amount

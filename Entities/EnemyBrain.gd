@@ -86,7 +86,9 @@ func node_already_visited(list, node):
 	return null
 
 func heuristic(pos: Vector2)->float:
-	return die.grid.get_node("Player").grid_pos.distance_to(pos)
+	if is_instance_valid(die.grid.get_node("Player")):
+		return die.grid.get_node("Player").grid_pos.distance_to(pos)
+	return -1.0
 #END FOR PATHFINDING
 
 func _on_Dice_attacked():

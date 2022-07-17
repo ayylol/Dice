@@ -1,5 +1,7 @@
 extends GridMap
 
+signal next_level
+
 var players
 var current_player
 
@@ -30,3 +32,7 @@ func players_moved():
 		if is_instance_valid(p) and p.is_in_group("Friendly"):
 			continue
 		p.get_node("Brain").should_show_health()
+
+
+func _on_Player_got_to_end():
+	emit_signal("next_level")
