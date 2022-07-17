@@ -8,7 +8,7 @@ var players
 var current_player
 
 func _ready():
-	players = get_children()
+	players = get_tree().get_nodes_in_group("Die")#= get_children()
 	for player in players:
 		player.connect("turn_done", self, "next_turn")
 		player.connect("moved", self, "players_moved")
@@ -16,17 +16,16 @@ func _ready():
 	$Player.teleport(start_pos)
 	players[current_player].start_turn()
 	players_moved()
-	
 
 func is_occupied(grid_pos: Vector2):
 	for dice in get_children():
-		if dice.get("grid_pos") == grid_pos:
+		if is_instance_valid(dice) and (dice.get("grid_pos") == grid_pos):
 			return dice
 	return null
 
 func next_turn():
 	var last_player = players[current_player]
-	players = get_children()
+	players = get_tree().get_nodes_in_group("Die")
 	current_player = (players.find(last_player)+1)%players.size()
 	players[current_player].start_turn()
 	
@@ -36,6 +35,8 @@ func players_moved():
 			continue
 		p.get_node("Brain").should_show_health()
 
-
 func _on_Player_got_to_end():
 	emit_signal("next_level")
+
+func _physics_process(delta):
+	print(current_player)

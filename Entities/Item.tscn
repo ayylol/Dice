@@ -67,6 +67,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.666987, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Mesh")
+autoplay = "Float"
 playback_speed = 0.5
 anims/Float = SubResource( 1 )
 anims/RESET = SubResource( 2 )
