@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Move Dice 3.wav-ca67528f120f513933ba14b3009f7805.sample"
+
+[deps]
+
+source_file="res://Entities/Assets/Move Dice 3.wav"
+dest_files=[ "res://.import/Move Dice 3.wav-ca67528f120f513933ba14b3009f7805.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

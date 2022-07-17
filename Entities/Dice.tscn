@@ -68,6 +68,20 @@ tracks/5/keys = {
 "points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 10 )
 }
+tracks/6/type = "method"
+tracks/6/path = NodePath("../..")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 3.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_hit"
+} ]
+}
 
 [sub_resource type="ConcavePolygonShape" id=2]
 data = PoolVector3Array( -1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1 )
@@ -168,6 +182,12 @@ shape = SubResource( 2 )
 [node name="JumpAnimation" type="AnimationPlayer" parent="."]
 playback_speed = 40.0
 anims/move = SubResource( 3 )
+
+[node name="StepAudio" type="AudioStreamPlayer3D" parent="."]
+unit_db = 80.0
+
+[node name="HitAudio" type="AudioStreamPlayer3D" parent="."]
+unit_db = 80.0
 
 [connection signal="animation_finished" from="MeshRoot/HammerRoot/Hammer/HitAnimation" to="." method="_on_HitAnimation_animation_finished"]
 [connection signal="tween_all_completed" from="MoveTween" to="." method="_on_RotateTween_tween_all_completed"]
