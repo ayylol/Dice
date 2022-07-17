@@ -22,9 +22,11 @@ var _moves_left = 0
 var _has_attacked = false
 var _can_move = true
 var _hit_dir
+var _hit_strength
 var _hit_target
 
 onready var health = max_health
+
 
 onready var grid = $".."
 onready var move_tween = $MoveTween
@@ -34,7 +36,26 @@ onready var mesh_root = $MeshRoot
 onready var hammer_root = $MeshRoot/HammerRoot
 onready var hammer = $MeshRoot/HammerRoot/Hammer
 onready var hit_anim = $MeshRoot/HammerRoot/Hammer/HitAnimation
+onready var step_audio = $StepAudio
+onready var hit_audio = $HitAudio
 onready var offset = Vector3(0,height_offset,0)
+
+const STEPS = {
+	0: preload("res://Entities/Assets/Move Dice 1.wav"),
+	1: preload("res://Entities/Assets/Move Dice 2.wav"),
+	2: preload("res://Entities/Assets/Move Dice 3.wav"),
+	3: preload("res://Entities/Assets/Move Dice 4.wav"),
+	4: preload("res://Entities/Assets/Move Dice 5.wav"),
+}
+
+const HITS = {
+	0: preload("res://Entities/Assets/Hit 1.wav"),
+	1: preload("res://Entities/Assets/Hit 2.wav"),
+	2: preload("res://Entities/Assets/Hit 3.wav"),
+	3: preload("res://Entities/Assets/Hit 4.wav"),
+	4: preload("res://Entities/Assets/Hit 5.wav"),
+	5: preload("res://Entities/Assets/Hit 6.wav"),
+}
 
 func _ready():
 	transform.origin = grid.map_to_world(starting_pos.x, 0, starting_pos.y) + offset
@@ -79,6 +100,7 @@ func move(direction):
 						and (not _has_attacked)): # Attack
 							_hit_dir = direction
 							_hit_target = on_next_tile
+							_hit_strength = get_side(_hit_dir).val
 							hammer_root.show()
 							hammer_root.rotation.y = Directions.dir_to_rad(_hit_dir) + PI
 							hit_anim.play("Hit")
@@ -118,6 +140,7 @@ func _on_RotateTween_tween_step(object, key, elapsed, value):
 func _on_RotateTween_tween_all_completed():
 	_can_move = true
 	emit_signal("moved")
+	play_step()
 
 func damage(amount: int):
 	health -= amount
@@ -174,8 +197,19 @@ class sorter:
 
 func _on_HitAnimation_animation_finished(anim_name):
 	hammer_root.hide()
-	_hit_target.damage(get_side(_hit_dir).val)
 	_has_attacked = true
 	_can_move = true
 	_did_move()
 	emit_signal("attacked")
+
+func play_hit():
+	_hit_target.damage(_hit_strength)
+	hit_audio.set_stream(HITS[_hit_strength-1])
+	hit_audio.play()
+
+func play_step():
+	var step_index = randi() % STEPS.size()
+	step_audio.set_stream(STEPS[step_index])
+	step_audio.set_pitch_scale(rand_range(0.8, 1.2))
+	step_audio.play()
+	

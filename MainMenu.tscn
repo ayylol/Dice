@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://CoffeetinInitials-YXJ2.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Dice_Menu.wav" type="AudioStream" id=3]
 
 [sub_resource type="Theme" id=7]
 
@@ -73,6 +74,11 @@ size_flags_vertical = 3
 theme = SubResource( 5 )
 custom_fonts/font = SubResource( 6 )
 text = "Quit"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -8.0
+autoplay = true
 
 [connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
