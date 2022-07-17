@@ -110,7 +110,7 @@ func move(direction):
 						emit_signal("failed_to_move")
 					return
 				elif on_next_tile.is_in_group("Pickup"): # Move and pickup
-					print("pickup")
+					print("pickups")
 			
 			if instant_move:
 				mesh.transform = trans_to
@@ -143,8 +143,6 @@ func _on_RotateTween_tween_all_completed():
 	emit_signal("moved")
 	play_step()
 	if is_in_group("Friendly") and grid.get_cell_item(grid_pos.x, 0, grid_pos.y)==2:
-		grid_pos = Vector2(0,0)
-		transform = Transform(transform.basis, grid.map_to_world(grid_pos.x, 0, grid_pos.y) + offset)
 		emit_signal("got_to_end")
 
 func damage(amount: int):
@@ -218,3 +216,6 @@ func play_step():
 	step_audio.set_pitch_scale(rand_range(0.8, 1.2))
 	step_audio.play()
 	
+func teleport(pos):
+	grid_pos = pos
+	transform = Transform(transform.basis, grid.map_to_world(grid_pos.x, 0, grid_pos.y) + offset)

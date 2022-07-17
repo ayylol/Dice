@@ -1,14 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://DiceDungeon.wav" type="AudioStream" id=10]
-[ext_resource path="res://GameOverMenu.tscn" type="PackedScene" id=12]
 [ext_resource path="res://GameManager.gd" type="Script" id=15]
 
 [node name="Root" type="Spatial"]
 script = ExtResource( 15 )
-
-[node name="GameOverMenu" parent="." instance=ExtResource( 12 )]
-visible = false
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )

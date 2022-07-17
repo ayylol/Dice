@@ -2,6 +2,8 @@ extends GridMap
 
 signal next_level
 
+export var start_pos = Vector2(0,0)
+
 var players
 var current_player
 
@@ -11,6 +13,7 @@ func _ready():
 		player.connect("turn_done", self, "next_turn")
 		player.connect("moved", self, "players_moved")
 	current_player = players.find($Player)
+	$Player.teleport(start_pos)
 	players[current_player].start_turn()
 	players_moved()
 	
@@ -29,7 +32,7 @@ func next_turn():
 	
 func players_moved():
 	for p in players:
-		if is_instance_valid(p) and p.is_in_group("Friendly"):
+		if not is_instance_valid(p) or p.is_in_group("Friendly") or p.is_in_group("Pickup"):
 			continue
 		p.get_node("Brain").should_show_health()
 
