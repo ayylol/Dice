@@ -5,6 +5,7 @@ signal turn_started
 signal failed_to_move
 signal moved
 signal attacked
+signal health_changed(health, max_health)
 signal game_over
 
 export var max_health = 10
@@ -32,6 +33,7 @@ onready var offset = Vector3(0,height_offset,0)
 
 func _ready():
 	transform.origin = grid.map_to_world(starting_pos.x, 0, starting_pos.y) + offset
+	emit_signal("health_changed", health, max_health)
 
 func move(direction):
 	var initiate = false
@@ -111,14 +113,13 @@ func _on_RotateTween_tween_all_completed():
 	emit_signal("moved")
 
 func damage(amount: int):
-	print(String(is_in_group("Friendly")) + " " + String(health))
 	health -= amount
 	if health<=0:
 		if is_in_group("Friendly"):
 			emit_signal("game_over")
 		else:
 			queue_free()
-	print(health)
+	emit_signal("health_changed", health, max_health)
 
 func _did_move():
 	_moves_left -= 1
