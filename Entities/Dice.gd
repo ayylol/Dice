@@ -1,6 +1,11 @@
 extends KinematicBody
 
 signal turn_done
+signal turn_started
+signal failed_to_move
+signal moved
+signal attacked
+signal game_over
 
 export var max_health = 10
 export var move_time = 0.25
@@ -9,6 +14,7 @@ export var jump_apex = 10
 export var height_offset = 2
 export var starting_pos = Vector2(0,0)
 
+onready var grid_pos = starting_pos
 var instant_move = false
 
 var _moves_left = 0
@@ -16,7 +22,6 @@ var _has_attacked = false
 var _can_move = true
 
 onready var health = max_health
-onready var grid_pos = starting_pos
 
 onready var grid = $".."
 onready var move_tween = $MoveTween
@@ -61,11 +66,16 @@ func move(direction):
 		if initiate and not (next_tile == -1 or next_tile == 1 or next_tile == 2 or next_tile == 3):
 			var on_next_tile = grid.is_occupied(_temp_grid_pos)
 			if on_next_tile != null:
-				if on_next_tile.is_in_group("Enemy"): # Attack
-					if not _has_attacked:
-						on_next_tile.damage(get_side(direction).val)
-						_has_attacked = true
-						_did_move()
+				if on_next_tile.is_in_group("Die"):
+					if (((is_in_group("Friendly") and on_next_tile.is_in_group("Enemy"))
+						or (is_in_group("Enemy") and on_next_tile.is_in_group("Friendly")))
+						and (not _has_attacked)): # Attack
+							on_next_tile.damage(get_side(direction).val)
+							_has_attacked = true
+							emit_signal("attacked")
+							_did_move()
+					else:
+						emit_signal("failed_to_move")
 					return
 				elif on_next_tile.is_in_group("Pickup"): # Move and pickup
 					print("pickup")
@@ -74,14 +84,14 @@ func move(direction):
 				mesh.transform = trans_to
 				transform = Transform(transform.basis, move_to)
 				_did_move()
+				emit_signal("moved")
 				return
-				
+			
 			jump_anim.play("move")
 			move_tween.interpolate_property(
 				mesh, "transform", 
 				mesh.transform, trans_to, 
 				move_time, move_tween.TRANS_SINE, move_tween.EASE_IN_OUT)
-				
 			move_tween.interpolate_property(
 				$".", "transform",
 				transform, Transform(transform.basis, move_to),
@@ -90,21 +100,27 @@ func move(direction):
 			_can_move = false
 			grid_pos = _temp_grid_pos
 			_did_move()
+		else:
+			emit_signal("failed_to_move")
 
 func _on_RotateTween_tween_step(object, key, elapsed, value):
 	mesh.transform = mesh.transform.orthonormalized()
 
 func _on_RotateTween_tween_all_completed():
 	_can_move = true
+	emit_signal("moved")
 
 func damage(amount: int):
+	print(String(is_in_group("Friendly")) + " " + String(health))
 	health -= amount
 	if health<=0:
-		queue_free()
+		if is_in_group("Friendly"):
+			emit_signal("game_over")
+		else:
+			queue_free()
 	print(health)
 
 func _did_move():
-	print("moved")
 	_moves_left -= 1
 	if _moves_left <= 0:
 		emit_signal("turn_done")
@@ -112,6 +128,7 @@ func _did_move():
 func start_turn():
 	_moves_left = get_side(Directions.TOP).val
 	_has_attacked = false
+	emit_signal("turn_started")
 
 func get_side(direction):
 	var sides = mesh.get_children()
@@ -145,3 +162,4 @@ class sorter:
 		return a.get_node("Tip").global_transform.origin.z < b.get_node("Tip").global_transform.origin.z
 	static func back_most(a, b) -> bool:
 		return a.get_node("Tip").global_transform.origin.z > b.get_node("Tip").global_transform.origin.z
+

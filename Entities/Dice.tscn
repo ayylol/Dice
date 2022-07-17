@@ -69,7 +69,7 @@ tracks/5/keys = {
 "times": PoolRealArray(  )
 }
 
-[node name="Dice" type="KinematicBody"]
+[node name="Dice" type="KinematicBody" groups=["Die"]]
 script = ExtResource( 1 )
 
 [node name="MeshRoot" type="Spatial" parent="."]
