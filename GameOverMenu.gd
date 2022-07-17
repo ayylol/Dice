@@ -24,3 +24,4 @@ func _on_QuitGOButton_pressed():
 
 func _on_Player_game_over():
 	show()
+

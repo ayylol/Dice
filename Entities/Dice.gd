@@ -110,7 +110,7 @@ func move(direction):
 						emit_signal("failed_to_move")
 					return
 				elif on_next_tile.is_in_group("Pickup"): # Move and pickup
-					print("pickup")
+					print("pickups")
 			
 			if instant_move:
 				mesh.transform = trans_to

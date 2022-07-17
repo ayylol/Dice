@@ -32,7 +32,7 @@ func next_turn():
 	
 func players_moved():
 	for p in players:
-		if is_instance_valid(p) and p.is_in_group("Friendly"):
+		if not is_instance_valid(p) or p.is_in_group("Friendly") or p.is_in_group("Pickup"):
 			continue
 		p.get_node("Brain").should_show_health()
 
