@@ -21,7 +21,7 @@ bg_color = Color( 0.596078, 0.176471, 0.176471, 1 )
 margin_left = 38.0
 margin_top = 11.0
 margin_right = 583.0
-margin_bottom = 108.0
+margin_bottom = 76.0
 theme = SubResource( 2 )
 custom_fonts/font = SubResource( 3 )
 custom_styles/fg = SubResource( 4 )
@@ -31,10 +31,10 @@ percent_visible = false
 script = ExtResource( 3 )
 
 [node name="TextureRect" type="TextureRect" parent="."]
-margin_left = -45.0
-margin_top = -6.0
-margin_right = 82.0
-margin_bottom = 111.0
+margin_left = -51.0
+margin_top = -1.0
+margin_right = 76.0
+margin_bottom = 116.0
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 4

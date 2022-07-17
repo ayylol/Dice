@@ -2,7 +2,7 @@ extends Spatial
 
 var next_stage = 0
 const STAGES = [
-	preload("res://map/Stage2.tscn"),
+	preload("res://map/Map1.tscn"),
 	preload("res://map/Map2.tscn"),
 	preload("res://map/Map3.tscn"),
 ]
