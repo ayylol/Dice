@@ -39,4 +39,5 @@ func _on_Player_got_to_end():
 	emit_signal("next_level")
 
 func _physics_process(delta):
-	print(current_player)
+	pass
+	#print(current_player)
