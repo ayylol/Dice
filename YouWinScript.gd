@@ -8,4 +8,4 @@ func _on_MainMenuWinButton_pressed():
 	get_tree().change_scene("res://MainMenu.tscn")
 
 func _on_QuitWinButton_pressed():
-	get_tree().quit() # Replace with function body.
+	get_tree().quit()
