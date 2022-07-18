@@ -66,5 +66,7 @@ custom_fonts/font = SubResource( 2 )
 custom_styles/fg = SubResource( 3 )
 custom_styles/bg = SubResource( 4 )
 
+[connection signal="got_to_end" from="." to="Brain" method="_on_Dice_got_to_end"]
 [connection signal="health_changed" from="." to="PlayerHealthBar" method="_on_Player_health_changed"]
+[connection signal="turn_started" from="." to="Brain" method="_on_Dice_turn_started"]
 [connection signal="tween_all_completed" from="Brain/Rotate" to="Brain" method="_on_Rotate_tween_all_completed"]
