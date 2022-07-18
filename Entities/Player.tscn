@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Entities/PlayerBrain.gd" type="Script" id=1]
 [ext_resource path="res://Entities/Dice.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Entities/Assets/Player/6Player.tscn" type="PackedScene" id=9]
 [ext_resource path="res://ProgressBar.tscn" type="PackedScene" id=10]
 [ext_resource path="res://KiwiSoda.ttf" type="DynamicFontData" id=11]
+[ext_resource path="res://MoveDisplayer.tscn" type="PackedScene" id=12]
 
 [sub_resource type="Theme" id=1]
 
@@ -70,3 +71,8 @@ custom_styles/bg = SubResource( 4 )
 [connection signal="health_changed" from="." to="PlayerHealthBar" method="_on_Player_health_changed"]
 [connection signal="turn_started" from="." to="Brain" method="_on_Dice_turn_started"]
 [connection signal="tween_all_completed" from="Brain/Rotate" to="Brain" method="_on_Rotate_tween_all_completed"]
+
+[node name="Control" parent="." index="8" instance=ExtResource( 12 )]
+margin_top = 24.0
+margin_right = -37.0
+node_path = NodePath("..")
