@@ -1,6 +1,7 @@
 extends Spatial
 
 export var rot_time = 0.35
+onready var health_bar = $"../PlayerHealthBar"
 
 var current_fwd = 0
 var _dirs = [
@@ -55,3 +56,11 @@ func rotate_cam(direction):
 func _on_Rotate_tween_all_completed():
 	_can_move_cam = true
 
+
+
+func _on_Dice_got_to_end():
+	health_bar.hide()
+
+
+func _on_Dice_turn_started():
+	health_bar.show()

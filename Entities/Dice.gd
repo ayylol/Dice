@@ -59,6 +59,7 @@ const HITS = {
 }
 
 func _ready():
+	
 	transform.origin = grid.map_to_world(starting_pos.x, 0, starting_pos.y) + offset
 	emit_signal("health_changed", health, max_health)
 
@@ -231,3 +232,4 @@ func end_turn():
 	_can_move = false
 	_moves_left = 0
 	emit_signal("turn_done")
+
