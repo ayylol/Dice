@@ -1,5 +1,7 @@
 extends Spatial
 
+onready var win_screen = $YouWin
+
 var next_stage = 0
 const STAGES = [
 	preload("res://map/Map1.tscn"),
@@ -13,8 +15,8 @@ func _ready():
 
 func get_next_stage():
 	if next_stage == STAGES.size():
-		print("WON!")
-		next_stage = 0
+		win_screen.show()
+		return
 	if is_instance_valid(current_stage): 
 		current_stage.queue_free()
 	current_stage = STAGES[next_stage].instance()
