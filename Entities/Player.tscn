@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Entities/PlayerBrain.gd" type="Script" id=1]
 [ext_resource path="res://Entities/Dice.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://ProgressBar.tscn" type="PackedScene" id=10]
 [ext_resource path="res://KiwiSoda.ttf" type="DynamicFontData" id=11]
 [ext_resource path="res://MoveDisplayer.tscn" type="PackedScene" id=12]
+[ext_resource path="res://TurnDisplayer.tscn" type="PackedScene" id=13]
 
 [sub_resource type="Theme" id=1]
 
@@ -67,12 +68,19 @@ custom_fonts/font = SubResource( 2 )
 custom_styles/fg = SubResource( 3 )
 custom_styles/bg = SubResource( 4 )
 
+[node name="Turn Displayer" parent="." index="8" instance=ExtResource( 13 )]
+margin_left = 24.0
+margin_top = 24.0
+margin_right = 24.0
+margin_bottom = 59.0
+node_path = NodePath("..")
+
+[node name="Move Displayer" parent="." index="9" instance=ExtResource( 12 )]
+margin_top = 24.0
+margin_right = -37.0
+node_path = NodePath("..")
+
 [connection signal="got_to_end" from="." to="Brain" method="_on_Dice_got_to_end"]
 [connection signal="health_changed" from="." to="PlayerHealthBar" method="_on_Player_health_changed"]
 [connection signal="turn_started" from="." to="Brain" method="_on_Dice_turn_started"]
 [connection signal="tween_all_completed" from="Brain/Rotate" to="Brain" method="_on_Rotate_tween_all_completed"]
-
-[node name="Control" parent="." index="8" instance=ExtResource( 12 )]
-margin_top = 24.0
-margin_right = -37.0
-node_path = NodePath("..")

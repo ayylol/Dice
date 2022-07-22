@@ -20,6 +20,7 @@ onready var grid_pos = starting_pos
 var instant_move = false
 
 var _moves_left = 0
+var _turn_ended = 0
 var _has_attacked = false
 var _can_move = true
 var _hit_dir
@@ -166,7 +167,9 @@ func damage(amount: int):
 func _did_move():
 	_moves_left -= 1
 	if _moves_left <= 0:
+		_turn_ended = _turn_ended+1
 		emit_signal("turn_done")
+	
 
 func start_turn():
 	_moves_left = get_side(Directions.TOP).val
